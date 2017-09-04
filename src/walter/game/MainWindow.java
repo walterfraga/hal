@@ -49,7 +49,7 @@ public class MainWindow extends JFrame {
 
 	private void initializeWordLabel() {
 		wordLabel = new JLabel();
-		wordLabel.setFont(new Font("Serif", Font.BOLD, 14));
+		wordLabel.setFont(new Font("Serif", Font.BOLD, 28));
 		wordLabel.setHorizontalAlignment(JLabel.CENTER);
 		this.add(wordLabel, BorderLayout.CENTER);
 	}
@@ -64,6 +64,7 @@ public class MainWindow extends JFrame {
 	private void initializeLettersButtons() {
 		for (String letter : hangMan.getAvailableLetters()) {			
 			final JButton button = new JButton(letter);
+			button.setEnabled(false);
 			buttonPanel.add(button);
 			button.addActionListener(new ActionListener() { 
 				  public void actionPerformed(ActionEvent e) { 
