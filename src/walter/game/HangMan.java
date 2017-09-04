@@ -20,6 +20,7 @@ public class HangMan {
 	private String word;
 	private int chances;
 	private String language;
+	private String normalizedWord;
 
 	public String getWord() {
 		return word;
@@ -33,12 +34,14 @@ public class HangMan {
 	}
 	
 	public String getNormalizedWord() {
-		String normalizedWord = word;
-		normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_ES, "E");
-		normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_AS, "A");
-		normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_US, "U");
-		normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_OS, "O");
-		System.out.print("Normalized Word: " + normalizedWord);
+		if (normalizedWord == null) {
+			normalizedWord = word;
+			normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_ES, "E");
+			normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_AS, "A");
+			normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_US, "U");
+			normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_OS, "O");
+			System.out.println("Normalized Word: " + normalizedWord);
+		}
 		return normalizedWord;
 	}
 	

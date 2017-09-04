@@ -2,12 +2,15 @@ package walter.game;
 import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,6 +27,8 @@ public class MainWindow extends JFrame {
 	private JLabel chancesLabel;
 	private JPanel buttonPanel;
 	private CheckboxGroup languagesCheckboxGroup;
+	private JComboBox<Integer> chancesCombo;
+	
 	
 	MainWindow() {
 		initializeFrame();		
@@ -45,8 +50,16 @@ public class MainWindow extends JFrame {
 		this.add(topSection, BorderLayout.NORTH);
 		initializeStartButton(topSection);
 		initializeLanuageSelection(topSection);
+		initializeChances(topSection);
 	}
 	
+	private void initializeChances(JPanel topSection) {
+		Integer[] chances = new Integer[]{1,2,3,4,5,6,7,8,9,10};
+		chancesCombo = new JComboBox<Integer>(chances);
+		chancesCombo.setSelectedIndex(4);
+		topSection.add(chancesCombo);
+	}
+
 	private void initializeStartButton(JPanel topSection) {
 		JButton startButton = new JButton("Start Game");
 		startButton.addActionListener(new ActionListener() { 
@@ -55,15 +68,12 @@ public class MainWindow extends JFrame {
 			  }
 		} );
 		topSection.add(startButton);
-		
 	}
 
 	private void initializeLanuageSelection(JPanel topSection) {
 	   languagesCheckboxGroup = new CheckboxGroup();
-       
        Checkbox englishButton = new Checkbox(HangMan.ENGLISH, languagesCheckboxGroup, true);
        Checkbox frenchButton = new Checkbox(HangMan.FRENCH, languagesCheckboxGroup, true);
-      
        topSection.add(englishButton);
        topSection.add(frenchButton);
 	}
@@ -77,13 +87,15 @@ public class MainWindow extends JFrame {
 		wordLabel = new JLabel();
 		wordLabel.setFont(new Font("Serif", Font.BOLD, 28));
 		wordLabel.setHorizontalAlignment(JLabel.CENTER);
-		this.add(wordLabel, BorderLayout.WEST);
+		this.add(wordLabel);
 	}
 	
 	private void initializeChancesLabel() {
 		chancesLabel = new JLabel();
 		chancesLabel.setFont(new Font("Serif", Font.BOLD, 28));
-		wordLabel.setHorizontalAlignment(JLabel.CENTER);
+		chancesLabel.setForeground(Color.red);
+		chancesLabel.setHorizontalAlignment(JLabel.CENTER);
+		chancesLabel.setVerticalAlignment(JLabel.CENTER);
 		this.add(chancesLabel, BorderLayout.EAST);
 	}
 
@@ -108,7 +120,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void startGame() {
-		hangMan = new HangMan(languagesCheckboxGroup.getCurrent().getLabel(), 6);
+		hangMan = new HangMan(languagesCheckboxGroup.getCurrent().getLabel(), ((Integer)chancesCombo.getSelectedItem()).intValue());
 		chancesLabel.setText(String.valueOf(hangMan.getChances()));
 		StringBuilder text = new StringBuilder();
 		for(int i = 0 ; i < hangMan.getWord().length() ; i++) {
