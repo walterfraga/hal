@@ -1,5 +1,7 @@
 package walter.game;
 import java.awt.BorderLayout;
+import java.awt.Checkbox;
+import java.awt.CheckboxGroup;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -23,9 +25,8 @@ public class MainWindow extends JFrame {
 	private static final int MAX_VERTICAL_SIZE = 272;
 	
 	MainWindow() {
-		hangMan = new HangMan(6);
 		initializeFrame();		
-		initializeStartButton();		
+		initializeTopSection();		
 		initializeMiddleSection();		
 		initializeButtonPanel();
 		initializeLettersButtons();
@@ -38,6 +39,11 @@ public class MainWindow extends JFrame {
 		this.setSize(MAX_HORIZONTAL_SIZE, MAX_VERTICAL_SIZE);
 	}
 
+	private void initializeTopSection() {
+		initializeStartButton();
+		initializeLanuageSelection();
+	}
+	
 	private void initializeStartButton() {
 		JButton startButton = new JButton("Start Game");
 		startButton.addActionListener(new ActionListener() { 
@@ -46,6 +52,16 @@ public class MainWindow extends JFrame {
 			  }
 		} );
 		this.add(startButton, BorderLayout.NORTH);
+	}
+
+	private void initializeLanuageSelection() {
+		   CheckboxGroup lngGrp = new CheckboxGroup();
+           
+           Checkbox englishButton = new Checkbox(HangMan.ENGLISH, lngGrp, true);
+           Checkbox frenchButton = new Checkbox(HangMan.FRENCH, lngGrp, true);
+          
+           add(englishButton, BorderLayout.NORTH);
+           add(frenchButton, BorderLayout.NORTH);
 	}
 
 	private void initializeMiddleSection() {
@@ -75,7 +91,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void initializeLettersButtons() {
-		for (String letter : hangMan.getAvailableLetters()) {			
+		for (String letter : HangMan.LETTERS) {			
 			final JButton button = new JButton(letter);
 			button.setEnabled(false);
 			buttonPanel.add(button);
@@ -88,7 +104,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void startGame() {
-		hangMan = new HangMan(6);
+		//hangMan = new HangMan(6);
 		chancesLabel.setText(String.valueOf(hangMan.getChances()));
 		StringBuilder text = new StringBuilder();
 		for(int i = 0 ; i < hangMan.getWord().length() ; i++) {

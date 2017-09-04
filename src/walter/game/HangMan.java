@@ -4,39 +4,32 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class HangMan {
 	
 	public static final String UNSELECTED_CHAR = "-";
+	public static final String ENGLISH = "EN";
+	public static final String FRENCH = "FR";
+	public static final String[] LETTERS = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
 	private String word;
-	private List<String> availableLetters;
 	private int chances;
-	
-	public List<String> getAvailableLetters() {
-		return availableLetters;
-	}
+	private String language;
 
 	public String getWord() {
 		return word;
 	}
 
-	public HangMan(int pChances) {
+	public HangMan(String pLanguage, int pChances) {
 		chances = pChances;
+		language = pLanguage;
 		word = generateWord();
-		availableLetters = generateAvailableLetters();
 	}
 	
 	public int decreaseChances() {
 		chances--;
 		return chances;
-	}
-	
-	private List<String> generateAvailableLetters() {		
-		String[] letters = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};		
-		return Arrays.asList(letters);
 	}
 
 	public String generateWord() {
@@ -48,7 +41,7 @@ public class HangMan {
 		List<String> words = new ArrayList<String>();
 		BufferedReader br = null;
 		try {
-			InputStream res = HangMan.class.getResourceAsStream("/words.txt");
+			InputStream res = HangMan.class.getResourceAsStream(language.equals(FRENCH)?"/words_fr.txt":"/words_en.txt");
 			br = new BufferedReader(new InputStreamReader(res));
 			String line = br.readLine();
 			while (line != null) {
@@ -80,5 +73,13 @@ public class HangMan {
 
 	public void setChances(int chances) {
 		this.chances = chances;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 }

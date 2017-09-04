@@ -9,7 +9,7 @@ public class HangManTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		hangMan = new HangMan(1);
+		hangMan = new HangMan(HangMan.ENGLISH, 1);
 	}
 
 	public void testGenerateWord() {
