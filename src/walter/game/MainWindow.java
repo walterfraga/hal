@@ -146,8 +146,13 @@ public class MainWindow extends JFrame {
 			decreaseChances();
 			if (hangMan.getChances() == 0) {
 				disableAllLetterButtons();
+				displayAnswer();
 			}
 		}
+	}
+
+	private void displayAnswer() {
+		wordLabel.setText(hangMan.getWord());
 	}
 
 	private void decreaseChances() {
