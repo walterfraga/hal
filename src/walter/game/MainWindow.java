@@ -17,15 +17,16 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private HangMan hangMan;
 	private JLabel wordLabel;
+	private JLabel chancesLabel;
 	private JPanel buttonPanel;
 	private static final int MAX_HORIZONTAL_SIZE = 480;
 	private static final int MAX_VERTICAL_SIZE = 272;
 	
 	MainWindow() {
-		hangMan = new HangMan();
+		hangMan = new HangMan(6);
 		initializeFrame();		
 		initializeStartButton();		
-		initializeWordLabel();		
+		initializeMiddleSection();		
 		initializeButtonPanel();
 		initializeLettersButtons();
 		this.setVisible(true);
@@ -47,11 +48,23 @@ public class MainWindow extends JFrame {
 		this.add(startButton, BorderLayout.NORTH);
 	}
 
+	private void initializeMiddleSection() {
+		initializeWordLabel();
+		initializeChancesLabel();
+	}
+	
 	private void initializeWordLabel() {
 		wordLabel = new JLabel();
 		wordLabel.setFont(new Font("Serif", Font.BOLD, 28));
 		wordLabel.setHorizontalAlignment(JLabel.CENTER);
-		this.add(wordLabel, BorderLayout.CENTER);
+		this.add(wordLabel, BorderLayout.WEST);
+	}
+	
+	private void initializeChancesLabel() {
+		chancesLabel = new JLabel();
+		chancesLabel.setFont(new Font("Serif", Font.BOLD, 28));
+		wordLabel.setHorizontalAlignment(JLabel.CENTER);
+		this.add(chancesLabel, BorderLayout.EAST);
 	}
 
 	private void initializeButtonPanel() {
@@ -75,7 +88,8 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void startGame() {
-		hangMan = new HangMan();
+		hangMan = new HangMan(6);
+		chancesLabel.setText(String.valueOf(hangMan.getChances()));
 		StringBuilder text = new StringBuilder();
 		for(int i = 0 ; i < hangMan.getWord().length() ; i++) {
 			text.append(HangMan.UNSELECTED_CHAR);
@@ -96,7 +110,16 @@ public class MainWindow extends JFrame {
 			if (isWordFound()) {
 				disableAllLetterButtons();
 			}
+		}else {
+			decreaseChances();
+			if (hangMan.getChances() == 0) {
+				disableAllLetterButtons();
+			}
 		}
+	}
+
+	private void decreaseChances() {
+		chancesLabel.setText(String.valueOf(hangMan.decreaseChances()));
 	}
 
 	private void enableAllLetterButtons() {

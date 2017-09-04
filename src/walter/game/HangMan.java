@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class HangMan {
+	
 	public static final String UNSELECTED_CHAR = "-";
 	private String word;
 	private List<String> availableLetters;
+	private int chances;
 	
 	public List<String> getAvailableLetters() {
 		return availableLetters;
@@ -21,9 +23,15 @@ public class HangMan {
 		return word;
 	}
 
-	public HangMan() {
+	public HangMan(int pChances) {
+		chances = pChances;
 		word = generateWord();
 		availableLetters = generateAvailableLetters();
+	}
+	
+	public int decreaseChances() {
+		chances--;
+		return chances;
 	}
 	
 	private List<String> generateAvailableLetters() {		
@@ -64,5 +72,13 @@ public class HangMan {
 	private String pickWord(List<String> words) {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, words.size());
 		return words.get(randomNum);
+	}
+
+	public int getChances() {
+		return chances;
+	}
+
+	public void setChances(int chances) {
+		this.chances = chances;
 	}
 }
