@@ -13,6 +13,10 @@ public class HangMan {
 	public static final String ENGLISH = "EN";
 	public static final String FRENCH = "FR";
 	public static final String[] LETTERS = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+	private static final String FRENCH_ES = "éèêÉÈÊ";
+	private static final String FRENCH_AS = "àâÀÂ";
+	private static final String FRENCH_US = "ùûÙÛ";
+	private static final String FRENCH_OS = "òôÒÔ";
 	private String word;
 	private int chances;
 	private String language;
@@ -21,6 +25,23 @@ public class HangMan {
 		return word;
 	}
 
+	public String replaceAccentLetters(String normalizedWord, String accentLetters, String replacedLetter) {
+		for (int i = 0 ; i < accentLetters.length() ; i++) {
+			normalizedWord = normalizedWord.replace(accentLetters.charAt(i) , replacedLetter.toCharArray()[0]);
+		}
+		return normalizedWord;
+	}
+	
+	public String getNormalizedWord() {
+		String normalizedWord = word;
+		normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_ES, "E");
+		normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_AS, "A");
+		normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_US, "U");
+		normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_OS, "O");
+		System.out.print("Normalized Word: " + normalizedWord);
+		return normalizedWord;
+	}
+	
 	public HangMan(String pLanguage, int pChances) {
 		chances = pChances;
 		language = pLanguage;
@@ -33,8 +54,10 @@ public class HangMan {
 	}
 
 	public String generateWord() {
-		List<String> words = readWords();
-		return pickWord(words).toUpperCase();
+		List<String> words = readWords();		
+		String pickedWord = pickWord(words).toUpperCase();
+		System.out.println("Picked Word: " + pickedWord);
+		return pickedWord;
 	}
 	
 	private List<String> readWords() {

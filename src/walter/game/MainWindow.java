@@ -17,12 +17,13 @@ import javax.swing.JPanel;
 public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private static final int MAX_HORIZONTAL_SIZE = 480;
+	private static final int MAX_VERTICAL_SIZE = 272;
 	private HangMan hangMan;
 	private JLabel wordLabel;
 	private JLabel chancesLabel;
 	private JPanel buttonPanel;
-	private static final int MAX_HORIZONTAL_SIZE = 480;
-	private static final int MAX_VERTICAL_SIZE = 272;
+	private CheckboxGroup languagesCheckboxGroup;
 	
 	MainWindow() {
 		initializeFrame();		
@@ -40,28 +41,31 @@ public class MainWindow extends JFrame {
 	}
 
 	private void initializeTopSection() {
-		initializeStartButton();
-		initializeLanuageSelection();
+		JPanel topSection = new JPanel();
+		this.add(topSection, BorderLayout.NORTH);
+		initializeStartButton(topSection);
+		initializeLanuageSelection(topSection);
 	}
 	
-	private void initializeStartButton() {
+	private void initializeStartButton(JPanel topSection) {
 		JButton startButton = new JButton("Start Game");
 		startButton.addActionListener(new ActionListener() { 
 			  public void actionPerformed(ActionEvent e) { 
 			    startGame();
 			  }
 		} );
-		this.add(startButton, BorderLayout.NORTH);
+		topSection.add(startButton);
+		
 	}
 
-	private void initializeLanuageSelection() {
-		   CheckboxGroup lngGrp = new CheckboxGroup();
-           
-           Checkbox englishButton = new Checkbox(HangMan.ENGLISH, lngGrp, true);
-           Checkbox frenchButton = new Checkbox(HangMan.FRENCH, lngGrp, true);
-          
-           add(englishButton, BorderLayout.NORTH);
-           add(frenchButton, BorderLayout.NORTH);
+	private void initializeLanuageSelection(JPanel topSection) {
+	   languagesCheckboxGroup = new CheckboxGroup();
+       
+       Checkbox englishButton = new Checkbox(HangMan.ENGLISH, languagesCheckboxGroup, true);
+       Checkbox frenchButton = new Checkbox(HangMan.FRENCH, languagesCheckboxGroup, true);
+      
+       topSection.add(englishButton);
+       topSection.add(frenchButton);
 	}
 
 	private void initializeMiddleSection() {
@@ -104,7 +108,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void startGame() {
-		//hangMan = new HangMan(6);
+		hangMan = new HangMan(languagesCheckboxGroup.getCurrent().getLabel(), 6);
 		chancesLabel.setText(String.valueOf(hangMan.getChances()));
 		StringBuilder text = new StringBuilder();
 		for(int i = 0 ; i < hangMan.getWord().length() ; i++) {
@@ -148,15 +152,15 @@ public class MainWindow extends JFrame {
 	
 	private void enableDisableAllLetterButtons(boolean bool) {
 		Component[] comp = buttonPanel.getComponents();
-	    for (int i = 0;i<comp.length;i++) {
+	    for (int i = 0 ;i < comp.length ; i++) {
 	        if (comp[i] instanceof JButton) {
-	           ((JButton)comp[i] ).setEnabled(bool);
+	           ((JButton)comp[i]).setEnabled(bool);
 	        }
 	    }
 	}
 
 	private boolean isSelectedLetterInWord(String letter) {
-		return hangMan.getWord().contains(letter);
+		return hangMan.getNormalizedWord().contains(letter);
 	}
 	
 	private boolean isWordFound() {
@@ -164,12 +168,12 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void displaySelectedLetterInWord(String letter) {
-		char[] wordLetters = hangMan.getWord().toCharArray();
+		char[] wordLetters = hangMan.getNormalizedWord().toUpperCase().toCharArray();
 		char letterFound = letter.toCharArray()[0];
 		for(int i = 0 ; i < wordLetters.length ; i++) {
 			if (wordLetters[i] == letterFound) {
 				char[] text = wordLabel.getText().toCharArray();
-				text[i] = letterFound;
+				text[i] = hangMan.getWord().toUpperCase().toCharArray()[i];
 				wordLabel.setText(new String(text));
 			}
 		}
