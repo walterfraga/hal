@@ -50,11 +50,23 @@ public class MainWindow extends JFrame {
 	private void initializeTopSection() {
 		JPanel topSection = new JPanel();
 		this.add(topSection, BorderLayout.NORTH);
+		initializeExitButton(topSection);
 		initializeStartButton(topSection);
 		initializeLanuageSelection(topSection);
 		initializeChances(topSection);
 	}
 	
+	private void initializeExitButton(JPanel topSection) {
+		JButton exitButton = new JButton("Exit");
+		exitButton.addActionListener(new ActionListener() { 
+			  public void actionPerformed(ActionEvent e) { 
+			    System.exit(0);
+			  }
+		} );
+		topSection.add(exitButton);
+		
+	}
+
 	private void initializeStartButton(JPanel topSection) {
 		JButton startButton = new JButton("Start Game");
 		startButton.addActionListener(new ActionListener() { 
