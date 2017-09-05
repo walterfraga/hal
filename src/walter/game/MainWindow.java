@@ -29,7 +29,6 @@ public class MainWindow extends JFrame {
 	private CheckboxGroup languagesCheckboxGroup;
 	private JComboBox<Integer> chancesCombo;
 	
-	
 	MainWindow() {
 		initializeFrame();		
 		initializeTopSection();		
@@ -37,6 +36,10 @@ public class MainWindow extends JFrame {
 		initializeButtonPanel();
 		initializeLettersButtons();
 		this.setVisible(true);
+	}
+	
+	public static void main(String args[]) {
+		new MainWindow();
 	}
 
 	private void initializeFrame() {
@@ -128,10 +131,6 @@ public class MainWindow extends JFrame {
 		}
 		wordLabel.setText(text.toString());
 		enableAllLetterButtons();
-	}
-	
-	public static void main(String args[]) {
-		new MainWindow();
 	}
 
 	private void handleLetterSelected(JButton button) {
