@@ -5,14 +5,117 @@ import junit.framework.TestCase;
 
 public class HangManTest extends TestCase {
 
-	private HangMan hangMan;
-	
-	protected void setUp() throws Exception {
-		super.setUp();
-		hangMan = new HangMan(HangMan.ENGLISH, 1);
+	public void testValidLanguageConstructor() {
+		try {
+			Assert.assertNotNull(new HangMan(HangMan.ENGLISH, 1));
+		} catch (Exception e) {
+			Assert.fail();
+		}
 	}
 
+	public void testInvalidLanguageConstructor() {
+		try {
+			new HangMan("PT", 1);
+			Assert.fail();
+		} catch (Exception e) {
+			Assert.assertTrue(true);
+		}
+	}
+
+	public void testValidChancesConstructor() {
+		try {
+			Assert.assertNotNull(new HangMan(HangMan.ENGLISH, 0));
+		} catch (Exception e) {
+			Assert.fail();
+		}
+	}
+
+	public void testInvalidChancesConstructor() {
+		try {
+			new HangMan(HangMan.ENGLISH, -1);
+			Assert.fail();
+		} catch (Exception e) {
+			Assert.assertTrue(true);
+		}
+	}
 	public void testGenerateWord() {
-		Assert.assertNotNull(hangMan.generateWord());
+		HangMan hangMan;
+		try {
+			hangMan = new HangMan(HangMan.ENGLISH, 1);
+			Assert.assertNotNull(hangMan.generateWord());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	public void testgetNormalizedWord_E() {
+		HangMan hangMan;
+		try {
+			hangMan = new HangMan(HangMan.ENGLISH, 1);
+			hangMan.setWord("érable");
+			Assert.assertEquals("ERABLE", hangMan.getNormalizedWord());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+
+	public void testgetNormalizedWord_A() {
+		HangMan hangMan;
+		try {
+			hangMan = new HangMan(HangMan.ENGLISH, 1);
+			hangMan.setWord("Là");
+			Assert.assertEquals("LA", hangMan.getNormalizedWord());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	public void testgetNormalizedWord_U() {
+		HangMan hangMan;
+		try {
+			hangMan = new HangMan(HangMan.ENGLISH, 1);
+			hangMan.setWord("Où");
+			Assert.assertEquals("OU", hangMan.getNormalizedWord());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	public void testgetNormalizedWord_O() {
+		HangMan hangMan;
+		try {
+			hangMan = new HangMan(HangMan.ENGLISH, 1);
+			hangMan.setWord("córso");
+			Assert.assertEquals("CORSO", hangMan.getNormalizedWord());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+
+	public void testDecreaseChances() {
+		HangMan hangMan;
+		try {
+			hangMan = new HangMan(HangMan.ENGLISH, 1);
+			Assert.assertEquals(0, hangMan.decreaseChances());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	public void testPreventDecreaseChancesBelowZero() {
+		HangMan hangMan;
+		try {
+			hangMan = new HangMan(HangMan.ENGLISH, 0);
+			Assert.assertEquals(0, hangMan.decreaseChances());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
 	}
 }

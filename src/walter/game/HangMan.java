@@ -13,20 +13,36 @@ public class HangMan {
 	public static final String ENGLISH = "EN";
 	public static final String FRENCH = "FR";
 	public static final String[] LETTERS = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-	private static final String FRENCH_ES = "éèêÉÈÊ";
+	private static final String FRENCH_ES = "éèêëÉÈÊË";
 	private static final String FRENCH_AS = "àâÀÂ";
 	private static final String FRENCH_US = "ùûÙÛ";
-	private static final String FRENCH_OS = "òôÒÔ";
+	private static final String FRENCH_OS = "òôóÒÔÓ";
 	private String word;
 	private int chances;
 	private String language;
 	private String normalizedWord;
 
+	public HangMan(String pLanguage, int pChances) throws Exception {
+		if (!pLanguage.equals(ENGLISH)
+			&& !pLanguage.equals(FRENCH)) {
+			throw new Exception("Invalid language. Only EN or FR is supported.");
+		}
+		if (pChances < 0)
+			throw new Exception("Invalid chances value. Chances must be greater than 0.");
+		chances = pChances;
+		language = pLanguage;
+		word = generateWord();
+	}
+
 	public String getWord() {
 		return word;
 	}
 
-	public String replaceAccentLetters(String normalizedWord, String accentLetters, String replacedLetter) {
+	public void setWord(String word) {
+		this.word = word;
+	}
+
+	private String replaceAccentLetters(String normalizedWord, String accentLetters, String replacedLetter) {
 		for (int i = 0 ; i < accentLetters.length() ; i++) {
 			normalizedWord = normalizedWord.replace(accentLetters.charAt(i) , replacedLetter.toCharArray()[0]);
 		}
@@ -40,19 +56,16 @@ public class HangMan {
 			normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_AS, "A");
 			normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_US, "U");
 			normalizedWord = replaceAccentLetters(normalizedWord, FRENCH_OS, "O");
+			normalizedWord = normalizedWord.toUpperCase();
 			System.out.println("Normalized Word: " + normalizedWord);
 		}
 		return normalizedWord;
 	}
-	
-	public HangMan(String pLanguage, int pChances) {
-		chances = pChances;
-		language = pLanguage;
-		word = generateWord();
-	}
-	
+		
 	public int decreaseChances() {
-		chances--;
+		if (chances > 0) {
+			chances--;
+		}
 		return chances;
 	}
 

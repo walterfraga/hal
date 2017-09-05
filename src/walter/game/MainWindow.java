@@ -33,8 +33,7 @@ public class MainWindow extends JFrame {
 		initializeFrame();		
 		initializeTopSection();		
 		initializeMiddleSection();		
-		initializeButtonPanel();
-		initializeLettersButtons();
+		initializeBottonSection();
 		this.setVisible(true);
 	}
 	
@@ -56,13 +55,6 @@ public class MainWindow extends JFrame {
 		initializeChances(topSection);
 	}
 	
-	private void initializeChances(JPanel topSection) {
-		Integer[] chances = new Integer[]{1,2,3,4,5,6,7,8,9,10};
-		chancesCombo = new JComboBox<Integer>(chances);
-		chancesCombo.setSelectedIndex(4);
-		topSection.add(chancesCombo);
-	}
-
 	private void initializeStartButton(JPanel topSection) {
 		JButton startButton = new JButton("Start Game");
 		startButton.addActionListener(new ActionListener() { 
@@ -79,6 +71,13 @@ public class MainWindow extends JFrame {
        Checkbox frenchButton = new Checkbox(HangMan.FRENCH, languagesCheckboxGroup, true);
        topSection.add(englishButton);
        topSection.add(frenchButton);
+	}
+	
+	private void initializeChances(JPanel topSection) {
+		Integer[] chances = new Integer[]{1,2,3,4,5,6,7,8,9,10};
+		chancesCombo = new JComboBox<Integer>(chances);
+		chancesCombo.setSelectedIndex(4);
+		topSection.add(chancesCombo);
 	}
 
 	private void initializeMiddleSection() {
@@ -102,6 +101,11 @@ public class MainWindow extends JFrame {
 		this.add(chancesLabel, BorderLayout.EAST);
 	}
 
+	private void initializeBottonSection() {
+		initializeButtonPanel();
+		initializeLettersButtons();
+	}
+	
 	private void initializeButtonPanel() {
 		buttonPanel = new JPanel();
 		this.add(buttonPanel, BorderLayout.SOUTH);
@@ -123,7 +127,12 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void startGame() {
-		hangMan = new HangMan(languagesCheckboxGroup.getCurrent().getLabel(), ((Integer)chancesCombo.getSelectedItem()).intValue());
+		try {
+			hangMan = new HangMan(languagesCheckboxGroup.getCurrent().getLabel(), ((Integer)chancesCombo.getSelectedItem()).intValue());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 		chancesLabel.setText(String.valueOf(hangMan.getChances()));
 		StringBuilder text = new StringBuilder();
 		for(int i = 0 ; i < hangMan.getWord().length() ; i++) {
