@@ -87,7 +87,7 @@ public class MainWindow extends JFrame {
 	
 	private void initializeChances(JPanel topSection) {
 		Integer[] chances = new Integer[]{1,2,3,4,5,6,7,8,9,10};
-		chancesCombo = new JComboBox<Integer>(chances);
+		chancesCombo = new JComboBox<>(chances);
 		chancesCombo.setSelectedIndex(4);
 		topSection.add(chancesCombo);
 	}
