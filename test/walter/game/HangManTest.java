@@ -2,6 +2,7 @@ package walter.game;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 public class HangManTest extends TestCase {
 
@@ -13,6 +14,12 @@ public class HangManTest extends TestCase {
 		}
 	}
 
+	@Override
+	protected TestResult createResult() {
+		return super.createResult();
+	}
+
+	@org.junit.Test
 	public void testInvalidLanguageConstructor() {
 		try {
 			new HangMan("PT", 1);
